@@ -80,8 +80,8 @@ int  cmpFloat(void *src , void *des){
 }
 
 
-int __pop__(HeadNode **headNode,void *value ,Type Datatype){
-    
+int pop(HeadNode **headNode,void *value ,Type Datatype){
+
     Node *temp = (*headNode)->head;
     Node *prev = NULL;
     
@@ -128,11 +128,23 @@ int __pop__(HeadNode **headNode,void *value ,Type Datatype){
     
 }
     
-// int pop(Node **head , Node **tail , int value){
-//     if (value==NULL){
-
-//     }
-// }
+void peek(HeadNode **headNode){
+    Node *temp = (*headNode)->head;
+    switch (temp->Datatype)
+        {
+        case INT:
+            printf("%d",*(int *)temp->data);
+            break;
+        case FLOAT:
+            printf("%f",*(float *)temp->data);
+            break;
+        case STRING:
+            printf("%s",(char *)temp->data);
+            break;
+        default:
+            break;
+        }
+}
 void print(HeadNode **head){
     Node *temp = (*head)->head;
     while (temp)
@@ -209,35 +221,13 @@ int main(int args , char *argv[]){
     append(&headNode,user_input,STRING);
     append(&headNode,&num,INT);
     append(&headNode,&data,FLOAT);
+    print(&headNode);
+    printf("\n");
     
-    // while(scanf("%s",user_input)){
-        
-    //     void *data = getType(user_input,&type);
-    //     switch (type)
-    //     {
-    //         case INT:
-    //             append(&head,&tail,data,INT);
-    //             break;
-    //         case FLOAT:
-    //             append(&head,&tail,data,FLOAT);
-    //             break;
-    //         case STRING:
-    //             append(&head,&tail,data,STRING);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    print(&headNode);
-    printf("\n");
-    // __pop__(&headNode,&(int){11},INT);
-    // printf("After __pop__() callin\n");
-    // print(&headNode);
-    // printf("\n");
     printf("remove String {} is 5\n");
-    __pop__(&headNode,&(char[]){"5"},STRING);
+    pop(&headNode,&(char[]){"5"},STRING);
     print(&headNode);
     printf("\n");
-    //     printf("\n");
-        
-    // }
+    peek(&headNode);
+
 }
