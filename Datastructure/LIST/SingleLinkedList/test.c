@@ -14,4 +14,7 @@
     //             break;
     //         default:
     //             break;
-    //     }
+    //     }// __pop__(&headNode,&(int){11},INT);
+    // printf("After __pop__(&(char[]){"5"}) callin\n");
+    // print(&headNode);
+    // printf("\n");
