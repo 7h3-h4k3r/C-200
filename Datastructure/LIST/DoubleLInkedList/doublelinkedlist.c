@@ -49,8 +49,50 @@ int insert(doubleLinkedList **head , int value){
     }
 }
 
+int __pop__(Node **head, int value){
+    
+    Node *temp = (*head);
+    while (temp)
+    {
+        if(temp->data == value){
+            if (temp->prev == NULL){
+                temp->next->prev = NULL;
+                temp = temp->next;
+                return 1;
+            }
+            else if (temp->next == NULL){
+                temp->prev->next = NULL;
+            }
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+            return 1;
+        }
+        temp = temp->next;
+    }
+    
+    return 0;
+}
 
+int pop(doubleLinkedList **head, int value){
+    (*head)->head;
+    if (value == -1){
+        value = (*head)->tail->data;
+        (*head)->tail->prev->next = NULL;
+        return value;
+    }
 
+    return __pop__(&(*head)->head,value);
+}
+
+void traverse(Node *node){
+    Node *temp = node;
+    while (temp)
+    {
+        printf("%d\n",temp->data);
+        temp = temp->next;
+    }
+    
+}
 void __init__(doubleLinkedList **head){
     (*head) = (doubleLinkedList*)malloc(sizeof(doubleLinkedList));
     if ((*head) == NULL){
@@ -59,6 +101,8 @@ void __init__(doubleLinkedList **head){
     (*head)->head = NULL;
     (*head)->tail = NULL;
 }
+
+
 int main(){
     doubleLinkedList *head;
 
@@ -66,4 +110,7 @@ int main(){
     insert(&head,10);
     insert(&head,20);
     insert(&head,30);
+    traverse(&*(head->head));
+    pop(&head,30);
+    traverse(&*(head->head));
 }
