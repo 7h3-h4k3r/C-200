@@ -50,18 +50,23 @@ int insert(doubleLinkedList **head , int value){
 }
 
 int __pop__(Node **head, int value){
-    
-    Node *temp = (*head);
+
+    Node *temp = *head;
     while (temp)
     {
         if(temp->data == value){
             if (temp->prev == NULL){
+                if (temp->next == NULL){
+                    *head = NULL;
+                    return 1;
+                }
                 temp->next->prev = NULL;
-                temp = temp->next;
+                *head = temp->next;
                 return 1;
             }
             else if (temp->next == NULL){
                 temp->prev->next = NULL;
+                return 1;
             }
             temp->prev->next = temp->next;
             temp->next->prev = temp->prev;
@@ -72,7 +77,9 @@ int __pop__(Node **head, int value){
     
     return 0;
 }
-
+int peek(doubleLinkedList **head){
+    return (*head)->head->data;
+}
 int pop(doubleLinkedList **head, int value){
     (*head)->head;
     if (value == -1){
@@ -84,14 +91,24 @@ int pop(doubleLinkedList **head, int value){
     return __pop__(&(*head)->head,value);
 }
 
-void traverse(Node *node){
-    Node *temp = node;
+int is_empty(doubleLinkedList **head){
+    if ((*head)->head == NULL){
+        return -1;
+    }
+    return 0;
+    
+}
+void traverse(doubleLinkedList **head){
+    if (is_empty(head)== -1){
+        Error("Node is empty , no element found in the Node is_empty() ",0);
+    }
+    Node *temp = &*(*head)->head;
     while (temp)
     {
-        printf("%d\n",temp->data);
+        printf("%d ",temp->data);
         temp = temp->next;
     }
-    
+    printf("\n");
 }
 void __init__(doubleLinkedList **head){
     (*head) = (doubleLinkedList*)malloc(sizeof(doubleLinkedList));
@@ -110,7 +127,10 @@ int main(){
     insert(&head,10);
     insert(&head,20);
     insert(&head,30);
-    traverse(&*(head->head));
+    // traverse(&*(head->head));
+    pop(&head,20);
     pop(&head,30);
-    traverse(&*(head->head));
+    pop(&head,10);
+    traverse(&head);
+    // printf("%d",peek(&head));
 }
