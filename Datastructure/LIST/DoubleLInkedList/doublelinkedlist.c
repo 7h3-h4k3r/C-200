@@ -74,7 +74,7 @@ int __pop__(Node **head, int value){
         }
         temp = temp->next;
     }
-    
+    free(temp);
     return 0;
 }
 int peek(doubleLinkedList **head){
@@ -109,6 +109,7 @@ void traverse(doubleLinkedList **head){
         temp = temp->next;
     }
     printf("\n");
+    free(temp);
 }
 void __init__(doubleLinkedList **head){
     (*head) = (doubleLinkedList*)malloc(sizeof(doubleLinkedList));
