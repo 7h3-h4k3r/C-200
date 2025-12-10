@@ -8,6 +8,8 @@ typedef struct Node{
 }Node;
 
 
+
+
 typedef struct Vertax{
     int vertax;
     Node *edge;
@@ -18,8 +20,41 @@ typedef struct Graph{
     struct Graph *next;
 }Graph;
 
+
+int enQ(Node **head , Vertax *vertax){
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    if(new_node== NULL){
+        printf("Memory allocation failed");
+        return -1;
+    }
+    new_node->value = vertax;
+    new_node->next = NULL;
+    if (*head == NULL){
+        *head = new_node;
+        return 1;
+    } 
+
+    Node *temp = *head;
+    while ( temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = new_node;
+    
+}
+
+int dQ(Node **head){
+    *head = (*head)->next;
+}
+
+int isempty(Node *head){
+    if (head==NULL){
+        return 1;
+    }
+    return -1;
+}
 Vertax* init_vertax(int value){
-    Vertax *init = (Vertax*)malloc(sizeof(Graph));
+    Vertax *init = (Vertax*)malloc(sizeof(Vertax));
     if (init == NULL){
         fprintf(stderr,"Memory allocation Failed bro init__vertax()");
         return NULL;
@@ -73,7 +108,7 @@ int add_edge(Graph **graph,int v1 , int v2){
         return -1;
     }
     Vertax *vertax2 = get_vertax(graph,v2);
-    if(vertax1==NULL){
+    if(vertax2==NULL){
         fprintf(stderr,"(Value Error)vertax %d is not found",v2);
         return -1;
     }
@@ -95,6 +130,31 @@ int add_edge(Graph **graph,int v1 , int v2){
     temp->next = new_node;
     
 }
+
+void breathFirstSearch(Graph **graph ,int start){
+    Vertax *visited = get_vertax(graph,start);
+    //to Already exist functin not writen
+    Node *q = NULL;
+    enQ(&q,visited);
+    while (q)
+    {
+        Vertax *v = (Vertax *)q->value;
+        printf("\nVisited : %d ->",v->vertax);
+
+        Node *e = v->edge;
+        while (e)
+        {
+            Vertax *neighbor = (Vertax *)e->value;
+            printf("Neighbor : %d ",neighbor->vertax);
+            enQ(&q,neighbor);
+            e = e->next;
+        }
+        printf("\n");
+        dQ(&q);
+    }
+    
+
+}
 int main(){
     Graph *graph;
     graph = NULL;
@@ -103,5 +163,7 @@ int main(){
     AddingVertax(&graph,30);
     add_edge(&graph,10,20);
     add_edge(&graph,10,30);
-    printf("Debuggind");
+    add_edge(&graph,20,30);
+    printf("Debuggind\n");
+    breathFirstSearch(&graph,10);
 }
